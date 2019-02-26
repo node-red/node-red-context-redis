@@ -1,0 +1,34 @@
+{
+  "name": "node-red-context-redis",
+  "version": "0.0.1",
+  "description": "A Node-RED Context store plugin backed by Redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --cache mocha ./test/_spec.js --timeout=8000",
+    "coverage": "nyc report --reporter=lcov --reporter=html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/node-red/node-red-context-redis.git"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@node-red/util": "0.20.0-beta.2",
+    "json-stringify-safe": "^5.0.1",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "nyc": "^10.0.0",
+    "should": "^13.2.1",
+    "should-sinon": "0.0.6",
+    "sinon": "^7.2.2"
+  },
+  "keywords": [
+    "node-red",
+    "redis"
+  ],
+  "engines": {
+    "node": ">=8"
+  }
+}
