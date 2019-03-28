@@ -19,7 +19,7 @@
  *
  * Configuration options:
  * {
- *    home: '127.0.0.1',       // The IP address of the Redis server
+ *    host: '127.0.0.1',       // The IP address of the Redis server
  *                             // default: '127.0.0.1'
  *    port: 6379,              // The port of the Redis server
  *                             // default: 6379
