@@ -28,7 +28,8 @@ describe('redis', function () {
         return context.open().then(() => {
             return context.close();
         }).catch(() => {
-            // If you can not connect to Redis(127.0.0.1:6379), all tests will be skipped.
+            // You need a local Redis Server(127.0.0.1:6379) to run the test cases.
+            console.log('Can not connect to Redis Server(127.0.0.1:6379), All tests will be skipped!');
             self.test.parent.pending = true;
             self.skip();
         });
@@ -334,6 +335,7 @@ describe('redis', function () {
                 });
             });
         });
+
         it('should set/get multiple values - get unknown', function (done) {
             context.set("nodeX", ["one", "two", "three"], ["test1", "test2", "test3"], function (err) {
                 context.get("nodeX", ["one", "two", "unknown"], function () {
@@ -342,11 +344,43 @@ describe('redis', function () {
                 });
             });
         });
+
         it('should set/get multiple values - single value provided', function (done) {
             context.set("nodeX", ["one", "two", "three"], "test1", function (err) {
                 context.get("nodeX", ["one", "two"], function () {
                     Array.prototype.slice.apply(arguments).should.eql([null, "test1", null]);
                     done();
+                });
+            });
+        });
+
+        it('should set/get multiple nested properties', function (done) {
+            context.set("nodeX", ["a.b.c.d", "f", "h.i", "k.l.m"], ["e", "g", "j", "n"], function () {
+                context.get("nodeX", ["a.b", "f", "h", "k.l.m"], function () {
+                    Array.prototype.slice.apply(arguments).should.eql([null, {c:{d:"e"}}, "g", {i:"j"}, "n"]);
+                    done();
+                });
+            });
+        });
+
+        it('should delete multiple values', function (done) {
+            context.set("nodeX", ["one", "two", "three"], ["test1", "test2", "test3"], function () {
+                context.set("nodeX", ["one", "three"], [undefined, undefined], function () {
+                    context.get("nodeX", ["one", "two", "three"], function () {
+                        Array.prototype.slice.apply(arguments).should.eql([null, undefined, "test2", undefined]);
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should delete multiple nested properties', function (done) {
+            context.set("nodeX", ["a.b.c.d", "f.g.h.i", "k.l.m.n", "p.q.r.s"], ["e", "j", "o", "t"], function () {
+                context.set("nodeX", ["a.b.c.d", "f", "k.l.m", "p.q"], [undefined, undefined, undefined, undefined], function () {
+                    context.get("nodeX", ["a", "f", "k", "p"], function () {
+                        Array.prototype.slice.apply(arguments).should.eql([null, {b:{c:{}}}, undefined, {l:{}}, {}]);
+                        done();
+                    });
                 });
             });
         });
