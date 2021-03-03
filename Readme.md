@@ -32,14 +32,16 @@ contextStorage: {
 This plugin exposes some options defined in [node_redis](https://github.com/NodeRedis/node_redis) as itself options.
 It needs following configuration options:
 
-| Options  | Description                                                                                                 |
-| -------- | ----------------------------------------------------------------------------------------------------------- |
-| host     | The IP address of the Redis server.    `Default: "127.0.0.1"`                                               |
-| port     | The port of the Redis server.          `Default: 6379`                                                      |
-| db       | The Redis logical database to connect. `Default: 0`                                                         |
-| prefix   | If set, the string used to prefix all used keys.                                                            |
-| password | If set, the plugin will run Redis AUTH command on connect. *Note: the password will be sent as plaintext.*  |
-| tls      | An object containing options to pass to tls.connect to set up a TLS connection to the server.               |
+| Options        | Description                                                                                                 |
+| -------------- | ----------------------------------------------------------------------------------------------------------- |
+| host           | The IP address of the Redis server.    `Default: "127.0.0.1"`                                               |
+| port           | The port of the Redis server.          `Default: 6379`                                                      |
+| db             | The Redis logical database to connect. `Default: 0`                                                         |
+| prefix         | If set, the string used to prefix all used keys.                                                            |
+| password       | If set, the plugin will run Redis AUTH command on connect. *Note: the password will be sent as plaintext.*  |
+| tls            | An object containing options to pass to tls.connect to set up a TLS connection to the server.               |
+| retry_strategy | Specifies a function to reconnect if the connection to Redis is lost.                                       |
+|                | `default: undefined (Use the default retry strategy)`                                                       |
 
 see https://github.com/NodeRedis/node_redis#options-object-properties
 

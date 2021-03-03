@@ -34,6 +34,8 @@
  *                             // default: undefined
  *    tls:                     // An object containing options to pass to tls.connect to set up a TLS connection to Redis
  *                             // default: undefined
+ *    retry_strategy:          // Specifies a function to reconnect if the connection to Redis is lost.
+ *                             // default: undefined (Use the default retry strategy)
  *  }
  *
  * This plugin prefixes all used keys with context scope.
@@ -175,8 +177,7 @@ function Redis(config) {
         db: config.db || 0,
         password: config.password,
         tls: config.tls,
-        //Do not try to reconnect, throw an error
-        retry_strategy: () => undefined
+        retry_strategy: config.retry_strategy || undefined
     };
     this.client = null;
     this.knownCircularRefs = {};
