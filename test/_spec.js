@@ -62,7 +62,7 @@ describe('redis', function () {
             });
         });
         it('should throw an error if cannot connect to redis', function () {
-            const context = redisPlugin({ host: "foobar" });
+            const context = redisPlugin({ host: "foobar", retry_strategy: () => undefined });
             return context.open().should.be.rejected();
         });
     });
@@ -577,7 +577,7 @@ describe('redis', function () {
         });
     });
 
-    describe.skip('#clean', function () {
+    describe('#clean', function () {
         const prefix = util.generateId();
         const context = redisPlugin({ prefix: prefix });
         function redisGet(scope, key) {
