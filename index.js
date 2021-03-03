@@ -399,34 +399,34 @@ Redis.prototype.delete = function (scope) {
 
 Redis.prototype.clean = function (_activeNodes) {
     this.knownCircularRefs = {};
-    // TODO: How to determine the data that no one is using
-    // return new Promise((resolve, reject) => {
-    //     this.client.KEYS((this.options.prefix || '') + '*', (err, res) => {
-    //         if (err) {
-    //             reject(err);
-    //         } else {
-    //             if(this.options.prefix){
-    //                 res = res.map(key => key.substring(this.options.prefix.length))
-    //             }
-    //             res = res.filter(key => !key.startsWith("global"))
-    //             _activeNodes.forEach(scope => {
-    //                 res = res.filter(key => !key.startsWith(scope))
-    //             })
-    //             if (res.length > 0) {
-    //                 this.client.DEL(...res, (err) => {
-    //                     if (err) {
-    //                         reject(err);
-    //                     } else {
-    //                         resolve();
-    //                     }
-    //                 });
-    //             } else {
-    //                 resolve()
-    //             }
-    //         }
-    //     });
-    // });
-    return Promise.resolve();
+     return new Promise((resolve, reject) => {
+        this.client.KEYS((this.prefix || '') + '*', (err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                if(this.prefix){
+                    res = res.map(key => key.substring(this.prefix.length + 1))
+                }
+                res = res.filter(key => !key.startsWith("global"))
+                _activeNodes.forEach(scope => {
+                    res = res.filter(key => !key.startsWith(scope))
+                })
+                var remove = [];
+                res.forEach(key => remove.push(this.prefix + ":" + key));
+                if (remove.length > 0) {
+                    this.client.DEL(...remove, (err) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    });
+                } else {
+                    resolve()
+                }
+            }
+        });
+    });
 };
 
 module.exports = function (config) {
