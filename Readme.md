@@ -1,8 +1,6 @@
-***This is a work in progress.***
+# Redis Context store plugin
 
-# Redis plugin
-
-The Redis plugin holds context data in the Redis.
+The Redis Context store plugin holds context data in the Redis.
 
 ## Pre-requisite
 
@@ -40,8 +38,7 @@ It needs following configuration options:
 | prefix         | If set, the string used to prefix all used keys.                                                            |
 | password       | If set, the plugin will run Redis AUTH command on connect. *Note: the password will be sent as plaintext.*  |
 | tls            | An object containing options to pass to tls.connect to set up a TLS connection to the server.               |
-| retry_strategy | Specifies a function to reconnect if the connection to Redis is lost.                                       |
-|                | `default: undefined (Use the default retry strategy)`                                                       |
+| retry_strategy | Specifies a function to reconnect if the connection to Redis is lost.<br> `default: undefined (Use the default retry strategy)`|
 
 see https://github.com/NodeRedis/node_redis#options-object-properties
 
