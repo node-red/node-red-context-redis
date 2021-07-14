@@ -228,7 +228,7 @@ Redis.prototype.close = function () {
 
 Redis.prototype.get = function (scope, key, callback) {
     if (typeof callback !== 'function') {
-        throw new Error('Callback must be a function');
+        throw new Error('Async storage - a callback must be defined');
     }
     try {
         if (!Array.isArray(key)) {
